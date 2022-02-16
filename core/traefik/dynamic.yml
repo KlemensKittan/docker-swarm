@@ -1,0 +1,14 @@
+# Dynamic configuration for traefik
+http:
+  middlewares:
+    core-auth:
+      basicAuth:
+        users:
+          - "admin:$2y$05$crjLh2GeM2EOb41JMHoqquSfi25WuCHvMSovING.k6GW3xkTEGphS"
+
+    # Limiting Clients to Specific IPs
+    core-ipwhitelist:
+      ipWhiteList:
+        sourceRange:
+          - "127.0.0.1"
+          - "10.3.32.0/23"

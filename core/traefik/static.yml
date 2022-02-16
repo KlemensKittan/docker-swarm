@@ -1,0 +1,39 @@
+# Static configuration for traefik
+api:
+  dashboard: true
+  insecure: true
+
+# Force HTTPS
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+  https:
+    address: ":443"
+    http:
+      tls:
+        certResolver: letsencrypt
+
+providers:
+  docker:
+    exposedByDefault: false
+    swarmMode: true
+    watch: true
+  file:
+    directory: /etc/traefik/dynamic
+    filename: dynamic.yml
+    watch: true
+
+# Let's encrypt configuration
+certificatesResolvers:
+  letsencrypt:
+    acme:
+#     caserver: https://acme-staging-v02.api.letsencrypt.org/directory
+#     caserver: https://acme-v02.api.letsencrypt.org/directory
+#     email: klemens.kittan@cs.uni-potsdam.de
+      httpChallenge:
+        entryPoint: http
+      storage: /etc/traefik/acme/acme.json

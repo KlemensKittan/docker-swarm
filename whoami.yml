@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  whoami:
+    image: containous/whoami:v1.3.0
+    networks:
+      - traefik
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
+        - "traefik.http.routers.whoami.entrypoints=https"
+        - "traefik.http.services.whoami.loadbalancer.server.port=80"
+
+networks:
+  traefik:
+    name: traefik
+    external: true
